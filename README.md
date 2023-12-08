@@ -6,6 +6,79 @@ Un Modèle UML se compose de plusieurs Diagrammes. Il existe différents types d
 Digramme de classe, Diagramme Use case, Diagramme de séquences, Diagramme d’Objets, etc. Dans
 ce problème, nous nous intéresserons uniquement au diagramme de classe.
 
+* UMLEntity.java
+````java
+public abstract class UMLEntity {
+    protected String name;
+    protected Visibility visibility;
+    protected boolean isStatic;
+    protected boolean isFinal;
+````
+* UMLClass.java
+````java
+public class UMLClass extends UMLEntity implements Observer {
+    private List<Attribute> attributes = new ArrayList<>();
+    private List<Method> methods;
+    private List<Constructor> constructors;
+    private boolean isAbstract;
+}
+````
+* UMLInterface.java
+````java
+public class UMLInterface extends UMLEntity {
+    private List<Method> abstractMethods;
+}
+````
+* UMLEnumerator.java
+````java
+public class UMLEnumerator extends UMLEntity {
+   private List<String> values;
+
+}
+````
+* UMLAnnotation.java
+````java
+public class UMLAnnotation extends UMLEntity {
+   private List<Property> properties;
+}
+````
+
+* UMLRelation.java
+````java
+public class UMLRelation {
+   protected UMLEntity sourceEntity;
+   protected UMLEntity destinationEntity;
+   protected Cardinality sourceCardinality;
+   protected Cardinality targetCardinality;
+}
+````
+
+* UMLAssociation.java
+````java
+public class UMLAssociation extends UMLRelation {
+   private boolean isBidirectional;
+
+}
+````
+* enums
+
+**Visibility**
+````java
+public enum Visibility {
+   PUBLIC,
+   PRIVATE,
+   PROTECTED
+}
+````
+**Cardinality**
+````java
+public enum Cardinality {
+   ZERO,
+   ONE,
+   MANY
+}
+````
+
 1. Définir une opération qui permet de générer le code source d’un diagramme de classes en
    choisissant une stratégie de génération pour chaque langage de programmation. Le modèle
    doit rester extensible pour donner la possibilité d’ajouter de nouvelle implémentation pour
