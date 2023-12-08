@@ -40,7 +40,7 @@ On va ajouter la dépendance suivante dans le pom.xml pour utiliser l’annotati
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjrt</artifactId>
-            <version>1.9.7</version> <!-- Remplacez par la dernière version disponible -->
+            <version>1.9.7</version> 
         </dependency>
 </dependencies>
 ```
@@ -107,6 +107,8 @@ Pour cela on va utiliser le design pattern Observer qui permet de définir un m�
 notification automatique à tous les objets qui dépendent d’un autre objet (sujet) quand son état
 change.
 
+![img_4.png](img_4.png)
+
 * Observer.java
 
 ````java
@@ -117,25 +119,44 @@ public interface Observer {
 * Observable.java
 
 ````java
-public class Observable {
+public interface Observable {
 
-    private List<Observer> observers = new ArrayList<>();
+   List<Observer> observers = new ArrayList<>();
 
-    public void addObserver(Observer observer) {
-        observers.add(observer);
-    }
+   public void addObserver(Observer observer);
+   public void removeObserver(Observer observer);
+   public void notifyObservers(String attributeName, Object newValue);
 
-    public void removeObserver(Observer observer) {
-        observers.remove(observer);
-    }
-
-    protected void notifyObservers(String attributeName, Object newValue) {
-        for (Observer observer : observers) {
-            observer.update(attributeName, newValue);
-        }
-    }
 }
 ````
+
+* ObservableImpl.java
+
+````java
+public class ObservableImpl implements Observable {
+   private List<Observer> observers;
+
+   public void addObserver(Observer observer) {
+      observers.add(observer);
+   }
+
+   public void removeObserver(Observer observer) {
+      observers.remove(observer);
+   }
+
+   public void notifyObservers(String attributeName, Object newValue) {
+      for (Observer observer : observers) {
+         observer.update(attributeName, newValue);
+      }
+   }
+
+}
+````
+
+
+
+
+
 
 
 
